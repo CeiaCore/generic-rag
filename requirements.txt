@@ -115,3 +115,8 @@ websockets==14.0
 wheel==0.43.0
 wrapt==1.16.0
 python-jose
+langchain-google-vertexai
+mammoth
+markdownify
+pdfplumber
+langchain

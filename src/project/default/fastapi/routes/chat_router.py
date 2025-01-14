@@ -6,8 +6,6 @@ import jwt
 from pydantic import BaseModel
 from fastapi import APIRouter,Request,HTTPException,Response,Depends
 import requests
-from src.infra.patterns.naive.basic_naive.basic_naive import BasicNaiveFactory
-from src.infra.patterns.naive.basic_naive.basic_naive_config import BASIC_NAIVE_CONFIG
 from src.project.default.domain.chat.infra.repository.chat import ChatRepository
 from src.project.default.domain.chat.usecases.create_chat import CreateChat, InputCreateChatDto
 from src.project.default.domain.chat.usecases.delete_chat import DeleteChat, InputDeleteChatDto
@@ -17,6 +15,8 @@ from sse_starlette.sse import EventSourceResponse
 from src.project.default.domain.chat.usecases.interact_chat import InputInteractChatDto, InteractChat
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt, JWTError
+from src.infra.patterns.naive.vertexai_naive_pattern import VertexNaiveFactory
+from src.infra.patterns.naive.vertexai_naive_config import VERTEXAI_NAIVE_CONFIG
 
 chat_router = APIRouter()
 
@@ -170,8 +170,8 @@ async def stream(request: Request, query: str, chat_id: str):
     
     repository = ChatRepository()
     
-    pattern = BasicNaiveFactory.create(
-        config=BASIC_NAIVE_CONFIG
+    pattern = VertexNaiveFactory.create(
+        config=VERTEXAI_NAIVE_CONFIG
     )
     
     

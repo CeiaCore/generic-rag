@@ -3,12 +3,12 @@ import psycopg2
 import os
 
 # Dados de conexão ao banco de dados
-DB_NAME = os.getenv("POSTGRES_DB", "mydatabase")
-DB_USER = os.getenv("POSTGRES_USER", "myuser")
-DB_PASSWORD = os.getenv("POSTGRES_PASSWORD", "mypassword")
-DB_HOST = os.getenv("POSTGRES_HOST", "localhost")
-DB_PORT = os.getenv("POSTGRES_PORT", 5433)
-DB_TABLE_NAME = "vector_embeddings"
+DB_NAME = "postgres"
+DB_USER = "postgres"
+DB_PASSWORD = "pipeline-rag"
+DB_HOST = "35.222.142.95"
+DB_PORT = 5432
+DB_TABLE_NAME = "case_juridico"
 
 conn = psycopg2.connect(
     dbname=DB_NAME,
@@ -20,7 +20,8 @@ conn = psycopg2.connect(
 
 cur = conn.cursor()
 
-
+drop_table = f"""DROP TABLE IF EXISTS {DB_TABLE_NAME}"""
+cur.execute(drop_table)
 
 cur.execute("CREATE EXTENSION IF NOT EXISTS vector;")
 
@@ -29,7 +30,7 @@ cur.execute("CREATE EXTENSION IF NOT EXISTS vector;")
 create_table_query = f"""
     CREATE TABLE IF NOT EXISTS {DB_TABLE_NAME} (
         conteudo TEXT,
-        embedding VECTOR(1536)
+        embedding VECTOR(768)
     );
     """
     
